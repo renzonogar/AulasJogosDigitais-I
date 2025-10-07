@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
+    public GameManager gameManager;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,15 +21,10 @@ public class Collectable : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Debug.Log("Está colidindo.");
-            
+            gameManager.AddPoints(10);
+            Destroy(gameObject);
         }
     }
 
-    public class Points : MonoBehaviour
-    {
-        
-        double points = 0;
-    }
-
+ 
 }

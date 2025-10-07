@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public Vector2 initialPosition;
+    public GameManager gameManager;
+
+
     public Animator anim;
     private Rigidbody2D rigd;
     public float movespeed;
@@ -9,12 +13,11 @@ public class Player : MonoBehaviour
     public float jumpForce = 5f;
     public bool isGround;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         anim = GetComponent<Animator>();
         rigd = GetComponent<Rigidbody2D>();
-        
+        initialPosition = transform.position; // Pega posição inicial
     }
 
     // Update is called once per frame
@@ -22,6 +25,11 @@ public class Player : MonoBehaviour
     {
         Move();
         Jump();
+    }
+
+    public void RestartPosition()
+    {
+        transform.position = initialPosition;
     }
 
     void Move()
@@ -61,8 +69,15 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "tagGround")
         {
             isGround = true;
-            Debug.Log("ta no chao");
         }
-        
+
+        if (collision.gameObject.tag == "DeathBarrier")
+        {
+            GameObject player = GameObject.FindWithTag("Player");
+            player.GetComponent<Player>().RestartPosition();
+
+            gameManager.AlterLife(3);
+        }
+
     }
 }
