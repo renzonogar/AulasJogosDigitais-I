@@ -1,11 +1,14 @@
 using UnityEngine;
-using UnityEngine.Video;
+using TMPro;
+
 
 public class GameManager : MonoBehaviour
 {
     public int points = 0;
     public int lifes = 3;
 
+    public TextMeshProUGUI txtPoints;
+    public TextMeshProUGUI txtLifes;
     
     public void AddPoints(int qtd)
     {
@@ -14,19 +17,14 @@ public class GameManager : MonoBehaviour
         if (points < 0) {
             points = 0;
         }
-
+        txtPoints.text = points + " P";
         Debug.Log("Pontos: " + points);
     }
 
     public void AlterLife(int life)
     {
         lifes -= life;
-
-        //if (lifes < 0)
-        //{
-        //    lifes = 0;
-        //}
-
+        txtLifes.text = lifes + " x";
         Debug.Log("Vidas: " + lifes);
         GameObject player = GameObject.FindWithTag("Player");
         player.GetComponent<Player>().RestartPosition();
